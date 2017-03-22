@@ -7,9 +7,13 @@
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		
-		$fetchUsers = $db->query("SELECT * FROM login WHERE username=".$username." AND password=".$password);
+		$fetchUsers = $db->query("SELECT * FROM login WHERE username='".$username."' AND password='".$password."'");
 		if($fetchUsers->num_rows > 0){
-			header("location: home.php");
+			while($row = $fetchUsers->fetch_assoc()){
+				$_SESSION['user_id'] = $row['user_id'];
+        		$_SESSION['username'] = $row['username'];
+				header("location: home.php");
+			}
 		}
 		else{
 			$message = "Invalid username or password. Please try again!";
