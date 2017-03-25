@@ -1,14 +1,26 @@
 <?php 
-    session_start();
+	include 'dbConfig.php'; 
+	session_start();
+	
+	if(isset($_POST['submit'])){
+
+		$fullname = $_POST['name'];
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$phone = $_POST['phone'];
+		$area = $_POST['area'];
+		$device = $_POST['password'];
+		
+		$db->query("INSERT INTO collector (Name,username,password,phone,area,device_id) VALUES ('".$fullname."','".$username."','".$password."','".$phone."','".$area."','".$device."')");
+
+	}
+	
 ?>
-
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html>
 <head>
-
-    <meta charset="utf-8">
+	<title>Add Collector</title>
+	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -34,12 +46,10 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
-
 <body>
-
-    <div id="wrapper">
+	
+	<div id="wrapper">
 
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -157,11 +167,9 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    
                     <li class="active">
                         <a href="home.php"><i class="fa fa-fw fa-dashboard"></i>Home</a>
                     </li>
-
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Manage Collector <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
@@ -187,14 +195,43 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Dashboard <small>Statistics Overview</small>
+                            Add Collector
                         </h1>
                     </div>
                 </div>
                 <!-- /.row -->
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Hello<div class="col-lg-12"></h1>
+                    <div class="col-lg-6">
+                    	<form role="form" action="addcollector.php" method="POST">
+								
+                    		<div class="form-group">
+                                <label>Full name</label>
+                                <input class="form-control" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input class="form-control" name="username">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input class="form-control" name="password">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input class="form-control" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label>Area</label>
+                                <input class="form-control" name="area">
+                            </div>
+                            <div class="form-group">
+                                <label>Device ID</label>
+                                <input class="form-control" name="device">
+                            </div>
+							<input class="btn btn-lg btn-primary" type="submit" name="submit" value="Add Collector">
+							<a href="home.php" class="btn btn-lg btn-primary">Back</a>
+						</form>
+						
                     </div>
                 </div>
                 
@@ -221,5 +258,4 @@
     <script src="js/plugins/morris/morris-data.js"></script>
 
 </body>
-
 </html>

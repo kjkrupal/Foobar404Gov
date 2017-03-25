@@ -1,14 +1,18 @@
 <?php 
-    session_start();
+	include 'dbConfig.php'; 
+	session_start();
+
+    if(isset($_GET['id'])){
+        $id = $_GET['id'];
+        $db->query("DELETE FROM collector WHERE id=".$id);
+    }
+	
 ?>
-
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html>
 <head>
-
-    <meta charset="utf-8">
+	<title>Add Collector</title>
+	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -34,12 +38,10 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
-
 <body>
-
-    <div id="wrapper">
+	
+	<div id="wrapper">
 
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -157,11 +159,9 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    
                     <li class="active">
                         <a href="home.php"><i class="fa fa-fw fa-dashboard"></i>Home</a>
                     </li>
-
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Manage Collector <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
@@ -187,15 +187,42 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Dashboard <small>Statistics Overview</small>
+                            View Collector
                         </h1>
                     </div>
                 </div>
                 <!-- /.row -->
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Hello<div class="col-lg-12"></h1>
-                    </div>
+                    <div class="col-lg-6">
+                        <h2>Collector Details</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Username</th>
+                                        <th>Operation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+
+                                        $query = $db->query("SELECT * FROM collector");
+                                        if($query->num_rows > 0){ 
+                                            while($row = $query->fetch_assoc()){
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $row['Name']; ?></td>
+                                        <td><?php echo $row['username']; ?></td>
+                                        <td><a href="viewcollector.php?id=<?php echo $row['id']; ?>" class="btn btn-xs btn-danger">Delete</a></td>
+                                    </tr>
+                                    <?php } } else {?>
+                                    <tr><td>No collector(s) found</td></tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>  
                 </div>
                 
                 <!-- /.row -->
@@ -221,5 +248,4 @@
     <script src="js/plugins/morris/morris-data.js"></script>
 
 </body>
-
 </html>
