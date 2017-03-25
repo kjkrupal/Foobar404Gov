@@ -173,6 +173,9 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="active">
+                        <a href="viewusers.php"><i class="fa fa-fw fa-dashboard"></i>View Users</a>
+                    </li>
         
                 </ul>
             </div>
@@ -194,7 +197,40 @@
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1>Hello<div class="col-lg-12"></h1>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Request ID</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Address</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                            
+                            $pendingRequest = $db->query("SELECT * FROM user_info WHERE user_id in (SELECT user_id FROM pending_request)");
+                                
+                                    if($pendingRequest->num_rows > 0){
+                                        while ($row = $pendingRequest->fetch_assoc()) {
+
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $row['name']; ?></td>
+                                        <td><?php echo $row['email']; ?></td>
+                                        <td><?php echo $row['mobile']; ?></td>
+                                        <td><?php echo $row['address']; ?></td>
+                                        <td><?php echo $row['pincode']; ?></td>
+                        
+                                    </tr>
+                                    <?php } } else {?>
+                                    <tr><td>No new requests</td></tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 

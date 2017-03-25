@@ -173,7 +173,9 @@
                             </li>
                         </ul>
                     </li>
-        
+                    <li class="active">
+                        <a href="viewusers.php"><i class="fa fa-fw fa-dashboard"></i>View Users</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -194,13 +196,15 @@
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-6">
-                        <h2>Collector Details</h2>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
                                         <th>Username</th>
+                                        <th>Phone</th>
+                                        <th>Area</th>
+                                        <th>Device ID</th>
                                         <th>Operation</th>
                                     </tr>
                                 </thead>
@@ -214,6 +218,9 @@
                                     <tr>
                                         <td><?php echo $row['Name']; ?></td>
                                         <td><?php echo $row['username']; ?></td>
+                                        <td><?php echo $row['phone']; ?></td>
+                                        <td><?php echo $row['area']; ?></td>
+                                        <td><?php echo $row['device_id']; ?></td>
                                         <td><a href="viewcollector.php?id=<?php echo $row['id']; ?>" class="btn btn-xs btn-danger">Delete</a></td>
                                     </tr>
                                     <?php } } else {?>

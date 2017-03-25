@@ -2,18 +2,6 @@
 	include 'dbConfig.php'; 
 	session_start();
 	
-	if(isset($_POST['submit'])){
-		
-        $fullname = mysqli_real_escape_string($db, $_POST['name']);
-        $username = mysqli_real_escape_string($db, $_POST['username']);
-        $password = mysqli_real_escape_string($db, $_POST['password']);
-        $phone = mysqli_real_escape_string($db, $_POST['phone']);
-        $area = mysqli_real_escape_string($db, $_POST['area']);
-        $device = mysqli_real_escape_string($db, $_POST['device']);
-        
-        $db->query("INSERT INTO collector (Name,username,password,phone,area,device_id) VALUES ('$fullname','$username','$password','$phone','$area','$device')");
-	}
-	
 ?>
 <!DOCTYPE html>
 <html>
@@ -196,44 +184,46 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Add Collector
+                            View Users
                         </h1>
                     </div>
                 </div>
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-6">
-                    	<form role="form" action="addcollector.php" method="POST">
-								
-                    		<div class="form-group">
-                                <label>Full name</label>
-                                <input class="form-control" name="name">
-                            </div>
-                            <div class="form-group">
-                                <label>Username</label>
-                                <input class="form-control" name="username">
-                            </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input class="form-control" name="password">
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input class="form-control" type="number" name="phone">
-                            </div>
-                            <div class="form-group">
-                                <label>Area</label>
-                                <input class="form-control" name="area">
-                            </div>
-                            <div class="form-group">
-                                <label>Device ID</label>
-                                <input class="form-control" name="device">
-                            </div>
-							<input class="btn btn-lg btn-primary" type="submit" name="submit" value="Add Collector">
-							<a href="home.php" class="btn btn-lg btn-primary">Back</a>
-						</form>
-						
-                    </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Address</th>
+                                        <th>Pincode</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+
+                                        $query = $db->query("SELECT * FROM user_info");
+                                        if($query->num_rows > 0){ 
+                                            while($row = $query->fetch_assoc()){
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $row['name']; ?></td>
+                                        <td><?php echo $row['email']; ?></td>
+                                        <td><?php echo $row['mobile']; ?></td>
+                                        <td><?php echo $row['address']; ?></td>
+                                        <td><?php echo $row['pincode']; ?></td>
+                        
+                                    </tr>
+                                    <?php } } else {?>
+                                    <tr><td>No user(s) found</td></tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>  
                 </div>
                 
                 <!-- /.row -->
