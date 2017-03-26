@@ -1,6 +1,8 @@
 <?php 
     include 'dbConfig.php';
     session_start();
+    $_SESSION['user_id'] = $_GET['id'];
+
 ?>
 
 <!DOCTYPE html>
@@ -191,7 +193,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Home <small>Pending Requests</small>
+                            Request
                         </h1>
                     </div>
                 </div>
@@ -202,58 +204,31 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Pincode</th>
-                                        <th>Orders</th>
-                                        <th>Assign Collector</th>
-                                        <th>Action</th>
+                                        <th>Date</th>
+                                        <th>Product Type</th>
+                                        <th>Quantity</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php 
                             
-                            $pendingRequest = $db->query("SELECT * FROM user_info WHERE user_id in (SELECT user_id FROM pending_request) ORDER BY pincode");
-                                                                        
-                                    if($pendingRequest->num_rows > 0){
-                                        while($row = $pendingRequest->fetch_assoc()){
+                            $request = $db->query("SELECT * FROM pending_request WHERE user_id=".$_SESSION['user_id']);
+                                
+                                    if($request->num_rows > 0){
+                                        while ($row = $request->fetch_assoc()) {
+
                                     ?>
-                                    <form action="home.php" method="POST">
-                                        <tr>
-                                            <td><?php echo $row['name']; ?></td>
-                                            <td><?php echo $row['mobile']; ?></td>
-                                            <td><?php echo $row['pincode']; ?></td>
-                                            <td><a class="btn btn-m btn-link" href="viewrequest.php?id=<?php echo $row['user_id']; ?>">View Orders</a></td>
-                                            <td>
-                                                <select name="collectorid" class="form-control">
-                                                <?php
-                                                    $collectorPin = $db->query("SELECT * FROM collector WHERE area=".$row['pincode']);
-                                                        if($collectorPin->num_rows > 0){
-                                                            while ($rows = $collectorPin->fetch_assoc()){
-                                                ?>
-                                                <div class="form-group">
-                                                    <option><?php echo $rows['Name']; ?></option>
-                                                </div>
-                                                <?php } } else{ ?>
-                                                <div class="form-group">
-                                                    <option>-No collector-</option>
-                                                </div>
-                                                <?php } ?>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input class="btn btn-m btn-primary" type="submit" name="submit" value="Assign">
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </form>
-                                    <?php  } } else {?>
+                                    <tr>
+                                        <td><?php echo $row['date']; ?></td>
+                                        <td><?php echo $row['product_type']; ?></td>
+                                        <td><?php echo $row['quantity']; ?></td>
+                                    </tr>
+                                    
+                                    <?php } } else {?>
                                     <tr><td>No new requests</td></tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
-                        </div>
                     </div>
                 </div>
                 
